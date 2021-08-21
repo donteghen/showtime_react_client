@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
+import Dashboard from './Dashboard'
+import {connect} from 'react-redux'
+import * as actions from './redux/actions'
+import { useEffect} from 'react';
+import LogIn from './shared/Login'
+import SignUp from './shared/SignUp';
+function App(props) {
+  useEffect(() => {
+    console.log(props)
+    props.fetchUser()
+  },[])
 
-function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Switch>
+        <Route path='/login' component={LogIn}/>
+        <Route path='/signup' component={SignUp}/>
+        <Route path='/dashboard/' component={Dashboard}/>
+        <Route path='/' render={() => <Redirect to='/dashboard/' />}/> 
+      </Switch>
+    </Router>
+  )
 }
+const mapStateToProps = (state) => ({auth:state.auth, mobileView:state.mobileView})
 
-export default App;
+export default connect(mapStateToProps, actions)(App);
