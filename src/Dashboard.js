@@ -4,24 +4,22 @@ import FooterContainer from "./userEnd/components/FooterContainer";
 import { Layout} from 'antd';
 import { useEffect, useState } from "react";
 import HeaderContainer from "./userEnd/containers/HeaderContainer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector,connect } from "react-redux";
 import {COLLAPSE_VIEW, EXPAND_VIEW} from './redux/reducers/mobileViewReducer'
-
+import * as actions from './redux/actions'
 const { Header, Content, Footer, Sider } = Layout;
 
 function Dashboard() {
   const dispatch = useDispatch()
   const mobile = useSelector(state => state.mobileView)
-
   const [mobileView, setMobileView] = useState(false)
+ 
   useEffect(() => {
     console.log(mobile)
     if(mobileView){
-      console.log(mobileView)
       dispatch(COLLAPSE_VIEW())
     }
     else{
-      console.log(mobileView)
       dispatch(EXPAND_VIEW())
     }
   }, [mobileView])
@@ -31,7 +29,7 @@ function Dashboard() {
       breakpoint="lg"
       collapsedWidth="0"
       onBreakpoint={broken => {
-        console.log(broken)
+        
         setMobileView(broken)
       }}
       style={{
@@ -40,7 +38,7 @@ function Dashboard() {
       }}
     >
       <div style={{height: '32px', margin: '16px', background: 'black'}}></div>
-      <Sidebar />
+      <Sidebar/>
     </Sider>
     
     <Layout style={{marginLeft:`${mobile ? '1px' : '200px'}`}}>
@@ -57,4 +55,5 @@ function Dashboard() {
   </Layout>
   )
 }
-export default Dashboard;
+//const mapStateToProps = state => ({auth:state.auth})
+export default Dashboard

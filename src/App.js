@@ -5,6 +5,7 @@ import * as actions from './redux/actions'
 import { useEffect} from 'react';
 import LogIn from './shared/Login'
 import SignUp from './shared/SignUp';
+import Confirm from './shared/Confirm';
 function App(props) {
   useEffect(() => {
     console.log(props)
@@ -14,6 +15,7 @@ function App(props) {
   return (
     <Router>
       <Switch>
+        <Route path='/confirm' component={Confirm}/>
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
         <Route path='/dashboard/' component={Dashboard}/>
