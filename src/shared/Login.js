@@ -8,7 +8,18 @@ import * as actions from '../redux/actions'
 import {validatePassword, validateEmail} from '../formvalidators/loginValidator'
 import styled from 'styled-components';
 
-
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 const MainDiv= styled.div`
 background: #0052D4;
 background: -webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4);
@@ -21,14 +32,15 @@ function LogIn ({auth, loginUser}) {
   const [loading, setLoading] = useState(false)
   const history = useHistory()
   useEffect(() => {
+    console.log(auth)
     if(auth) {
       history.push('/')
     }
-  },[])
+  },[auth])
   function error() {
     Modal.error({
       title: 'Access Error!',
-      content: 'Login failed. Please try again',
+      content: 'Login failed. Please check the provided email and password and try again!',
     });
   }
   const onEmailChanged = (email) => {
@@ -54,7 +66,7 @@ function LogIn ({auth, loginUser}) {
         <div style={{background:'white', alignItems:'center', padding:'40px 20px'}}>
             <div style={{textAlign:'center', margin:'30px 0'}}>
                 <div style={{margin:'30px 0'}}><img src='' alt='logo'/></div>
-                <h1>Login Into Your Dashboard</h1>
+                <h1>LOGIN</h1>
             </div>
             <div style={{maxwidth:'300px',margin:'0 auto'}}>
                 <Form size='large'
@@ -94,11 +106,11 @@ function LogIn ({auth, loginUser}) {
                 </Link>
               </Form.Item>
 
-              <Form.Item>
+              <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit" style={{marginRight:'4px'}} >
                   Log In
                 </Button>
-                Or <Link to='/signup'>SignUp Now!</Link>
+                Don't have an account yet? <Link to='/signup'>SignUp Now!</Link>
               </Form.Item>
               </Form>
             </div>

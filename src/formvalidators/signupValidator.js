@@ -1,4 +1,22 @@
 import {isEmail, isStrongPassword} from 'validator'
+const validateName = (name) => {
+    if(!name){
+      return {
+        validateStatus: 'error',
+        errorMsg: 'Email is required!',
+      }
+    }
+    if(name.match(/([a-zA-Z.'-])$/i) && name.length >= 5){
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      }
+    }
+    return {
+      validateStatus: 'error',
+      errorMsg: 'Please enter a meaningful name!',
+    }
+  }
 const validateEmail = (email) => {
     if(!email){
       return {
@@ -14,7 +32,7 @@ const validateEmail = (email) => {
     }
     return {
       validateStatus: 'error',
-      errorMsg: 'Wrong email pattern. Please enter a correct email',
+      errorMsg: 'Wrong email pattern. Please enter a coorect email',
     }
   }
 
@@ -39,4 +57,4 @@ const validateEmail = (email) => {
       errorMsg: 'Password must validate these, minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1',
     }
   }
-export {validateEmail, validatePassword}
+export {validateEmail, validatePassword, validateName}
