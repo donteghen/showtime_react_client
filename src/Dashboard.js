@@ -29,12 +29,12 @@ function Dashboard() {
       breakpoint="lg"
       collapsedWidth="0"
       onBreakpoint={broken => {
-        
         setMobileView(broken)
       }}
       style={{
         height:'100vh',
-        position:'fixed'
+        position:'fixed',
+        zIndex:'100'
       }}
     >
       <div style={{height: '32px', margin: '16px', background: 'black'}}></div>

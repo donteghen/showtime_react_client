@@ -22,7 +22,7 @@ const HeaderContainer = ({auth, mobileView}) => {
         <Col span={8}>
             <Input style={{borderRadius:'15px'}} size="large" placeholder="Search..." prefix={<SearchOutlined />} /></Col>
             {auth && auth._id ? (<Col span={4}>{auth.Avatar ? <Avatar size={60} src={auth.Avatar}/> 
-            : <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }} size={60} icon={<UserOutlined/>}/> }
+            : <Avatar style={{ color: 'white', backgroundColor: '#1f8ffb' }} size={60} icon={<UserOutlined/>}/> }
          </Col>) :
          (<Col span={4} style={{marginRight:`${mobileView ? '80px' : '120px'}`}}> 
             <Link to='/signup'><SPAN>SignUp</SPAN></Link>

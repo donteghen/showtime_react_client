@@ -1,10 +1,10 @@
 
-import {Menu} from 'antd'
+import {Menu, Divider} from 'antd'
 import { LoginOutlined, LogoutOutlined, CompassOutlined, HeartOutlined, LikeOutlined, SettingOutlined } from '@ant-design/icons';
 import {NavLink, useHistory } from "react-router-dom";
 import {connect} from 'react-redux'
 import * as actions from '../../redux/actions'
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 const styles = {
     menuItems : {
@@ -12,13 +12,11 @@ const styles = {
     }
 }
 function Sidebar ({auth, logoutUser}) {
-    useEffect(() => {
-        console.log(auth)
-    })
     const history = useHistory()
+    const defaultItem = history.location.pathname.split('dashboard/')[1]
     return (
       
-      <Menu theme="light" mode="inline" defaultSelectedKeys={['browse']} >
+      <Menu theme="light" mode="inline" defaultSelectedKeys={[defaultItem]} >
         <Menu.Item key="browse" icon={<CompassOutlined />} style={styles.menuItems}>
             <NavLink to='/dashboard/browse'>Browse</NavLink> 
         </Menu.Item>
@@ -28,6 +26,7 @@ function Sidebar ({auth, logoutUser}) {
         <Menu.Item key="liked" icon={<LikeOutlined />} style={styles.menuItems}>
             <NavLink to='/dashboard/liked'>Liked</NavLink>
         </Menu.Item>
+        <div style={{borderBottom:'1px dashed lightgrey', width:'100%', margin:'30px 0'}}></div>
         {auth && auth._id ? (
             <><Menu.Item key="settings" icon={<SettingOutlined />} style={styles.menuItems}>
             <NavLink to='/dashboard/settings'>Settings</NavLink>
