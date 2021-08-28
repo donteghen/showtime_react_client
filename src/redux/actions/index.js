@@ -86,8 +86,9 @@ export const updateUserProfile = (details) => async (dispatch) => {
             }
         })
         dispatch({type : UPDATE_USER_PROFILE, payload : res.data})
-        
+        return {success:true}
     } catch (error) {
-        window.alert(`error: ${error}`)
+        //window.alert(`error: ${error}`)
+        return {success:false}
     }
 }

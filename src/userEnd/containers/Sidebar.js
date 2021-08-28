@@ -4,6 +4,7 @@ import { LoginOutlined, LogoutOutlined, CompassOutlined, HeartOutlined, LikeOutl
 import {NavLink, useHistory } from "react-router-dom";
 import {connect} from 'react-redux'
 import * as actions from '../../redux/actions'
+import { useEffect, useState } from 'react';
 //import { useEffect } from 'react';
 
 const styles = {
@@ -13,10 +14,15 @@ const styles = {
 }
 function Sidebar ({auth, logoutUser}) {
     const history = useHistory()
-    const defaultItem = history.location.pathname.split('dashboard/')[1]
+    const [selected, setSelected] = useState('')
+    useEffect(() => {
+        const defaultItem = history.location.pathname.split('dashboard/')[1]
+        setSelected(defaultItem)
+    },[])
+
     return (
       
-      <Menu theme="light" mode="inline" defaultSelectedKeys={[defaultItem]} >
+      <Menu theme="light" mode="inline"  selectedKeys={[selected]} onSelect={({ key }) => setSelected(key)}>
         <Menu.Item key="browse" icon={<CompassOutlined />} style={styles.menuItems}>
             <NavLink to='/dashboard/browse'>Browse</NavLink> 
         </Menu.Item>

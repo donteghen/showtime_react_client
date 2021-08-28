@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { createRef, useState } from "react";
 import { Modal, Form, Input, Button, Spin } from "antd";
 import {UserOutlined, MailOutlined} from '@ant-design/icons'
 import { connect } from "react-redux";
 import * as actions from '../redux/actions'
-import auth from "registry-auth-token";
 import {validateName, validateEmail} from '../formvalidators/editUserValidator'
-const EditUserModal = ({Show, SetShow}) => {
+
+    const EditUserModal = ({Show, SetShow, auth, updateUserProfile, uploadAvatar}) => {
     const [email, setEmail] = useState({value:''})
   const [name, setName] = useState({value:''})
   const [loading, setLoading] = useState(false)
+  const formRef = createRef()
+  const onReset = () => {
+    formRef.current.resetFields();
+  };
     const onNameChanged = (name) => {
         setName({...validateName(name), name})
       }
@@ -22,29 +26,23 @@ const EditUserModal = ({Show, SetShow}) => {
         });
       }
       const onFinish = (values) => {
-          console.log(values)
-        //const details = {name:values.name, email : values.email, password : values.password}
+        const details = {name:values.name, email : values.email}
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
+        updateUserProfile(details).then(result => {
+            setLoading(false);
+          if(!result.success){
             error()
-        }, 2000);
-        // signupUser(details, history).then(result => {
-          
-        //   if(!result.success){
-        //     setLoading(false);
-        //     error()
-        //   }
-        // })
+          }
+        })
+        SetShow(false)
       };
     const handleOk = () => {
         document.getElementById('submit').click()
-      //SetShow(false);
     };
     const handleCancel = () => {
+        onReset()
       SetShow(false);
     };
-    console.log(document.getElementById('submit'))
     return (
       <>
         <Modal title="Basic Modal" visible={Show} onOk={handleOk} onCancel={handleCancel}>
@@ -55,7 +53,7 @@ const EditUserModal = ({Show, SetShow}) => {
               style={{justifyItems:'center', alignSelf:'center', alignContent:'center'}}
               initialValues={{ remember: true }}
               onFinish={onFinish}
-              
+              ref={formRef}
             >
             <Form.Item
                 rules={[{ required: true, message: 'Name is required!' }]}
@@ -63,7 +61,7 @@ const EditUserModal = ({Show, SetShow}) => {
                 validateStatus={name.validateStatus}
                 help={name?.errorMsg}
               >
-                <Input prefix={<UserOutlined />} type='text' name='name' defaultValue={auth.name}
+                <Input prefix={<UserOutlined />} type='text' name='name' defaultValue={auth?.name}
                 onChange={e => onNameChanged(e.target.value)} placeholder="Name"  value={name.value}/>
               </Form.Item>
               <Form.Item
@@ -72,7 +70,7 @@ const EditUserModal = ({Show, SetShow}) => {
                 validateStatus={email.validateStatus}
                 help={email?.errorMsg}
               >
-                <Input prefix={<MailOutlined  />} type='email' name='email' defaultValue={auth.email}
+                <Input prefix={<MailOutlined  />} type='email' name='email' defaultValue={auth?.email}
                 onChange={e => onEmailChanged(e.target.value)} placeholder="Email"  value={email.value}/>
               </Form.Item>
               <Form.Item wrapperCol={{ offset: 8, span: 16 }} style={{display:'none'}}>

@@ -4,9 +4,9 @@ import FooterContainer from "./userEnd/components/FooterContainer";
 import { Layout} from 'antd';
 import { useEffect, useState } from "react";
 import HeaderContainer from "./userEnd/containers/HeaderContainer";
-import { useDispatch, useSelector,connect } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import {COLLAPSE_VIEW, EXPAND_VIEW} from './redux/reducers/mobileViewReducer'
-import * as actions from './redux/actions'
+
 const { Header, Content, Footer, Sider } = Layout;
 
 function Dashboard() {

@@ -4,9 +4,10 @@ import * as actions from '../../redux/actions';
 import styled from 'styled-components'
 import {DeleteFilled, EditOutlined, HeartFilled, LikeFilled, UserOutlined} from '@ant-design/icons'
 import Slider from "react-slick";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import EditUserModal from "../../shared/EditUserModal";
-
+import { settings } from "../../settingsConfigs/sliderSettings";
 const {Meta} = Card;
 const MuteSpan = styled.span`
   color:grey;
@@ -22,57 +23,45 @@ const InfoSpan = styled.span`
   margin-top:0;
   padding-top:0;
 `;
-
-var settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
   const video = {
     thumbnail :'https://i.ytimg.com/vi/Fnoal6EakrE/hq720.jpg?sqp=-%E2%80%A6AFwAcABBg==&rs=AOn4CLBow3Z6vSgICrzwSsctbLHfMps7Jw',
     game_date:'12/03/2021',
     title:'Real Maldrid Vs Leventer',
     likes:2
     }
-function Settings ({auth, mobileView}) {
+
+function Settings ({auth, mobileView, uploadAvatar}) {
+ const history = useHistory()
   const [edit, setEdit] = useState(false)
+  const [avatar, setAvatar] = useState('')
+  
+  useEffect(() => {
+    if(!auth){
+        history.push('/login')
+    }
+  })
+  const handleButtonClick = () => {
+    if(avatar){
+      const formData = new FormData()
+      formData.append('avatar', avatar)
+      uploadAvatar(formData)
+      setAvatar('');
+    }
+    else{
+      document.getElementById('avatar').click()
+    }
+  }
     return (
       <div >
       {<EditUserModal SetShow={setEdit} Show={edit} />}
         <div style={{display:'flex', flexDirection:`${mobileView ? 'column' : 'row'}`}}>
           <div style={{flex:`${mobileView ? '100%' : '30%'}`, textAlign:`${mobileView ? 'center': 'start'}`}}>
-              {auth && auth.avatar ? <Avatar size={parseInt(`${mobileView ? 100 : 200}`)} src={<Image src={auth.avatar}/>} /> : 
+              {auth && auth.avatar ? <Avatar size={parseInt(`${mobileView ? 100 : 200}`)} shape="square" src={auth.avatar} /> : 
               <Avatar size={parseInt(`${mobileView ? 100 : 200}`)} style={{ color: 'white', backgroundColor: '#1f8ffb' }} shape="square" icon={<UserOutlined />} />}
-          </div>
+              <input id='avatar' type='file' name='avatar' hidden onChange={(e) => setAvatar(e.target.files[0])}/>
+              <br/><Button type='primary' style={{width:`${mobileView ? '100px' : '200px'}`}} onClick={handleButtonClick}>
+              {avatar ? 'Upload' : 'Change'}</Button>
+        </div>
           <div style={{flex:`${mobileView ? '100%' : '70%'}`, textAlign:`${mobileView ? 'center': 'start'}`}}>
               <h1 style={{fontSize:'24px'}}>Profile Information 
               <Button type='primary' shape='circle' color='#1f8ffb' onClick={() => setEdit(true)}
