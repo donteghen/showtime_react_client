@@ -8,7 +8,7 @@ function Browse() {
               <Player />
           </div>
           <div>
-
+              
           </div>
         </div>
     </div>

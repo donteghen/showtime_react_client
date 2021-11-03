@@ -10,8 +10,8 @@ function Mainbar()  {
         <Route path='/dashboard/watchlist' component={WatchList} />
         <Route path='/dashboard/liked' component={Liked} />
         <Route path='/dashboard/settings' component={Settings} />
-        <Route path='/dashboard' render={() => <Redirect to='/dashboard/browse' />}/> */
-        <Route path='/dashboard/**' render={() => <Redirect to='/dashboard' />}/> */
+        <Route path='/dashboard' render={() => <Redirect to='/dashboard/browse' />}/> 
+        <Route path='/dashboard/**' render={() => <Redirect to='/dashboard' />}/> 
       </Switch>
     )
   }

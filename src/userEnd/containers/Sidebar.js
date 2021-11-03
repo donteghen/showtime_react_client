@@ -1,5 +1,5 @@
 
-import {Menu, Divider} from 'antd'
+import {Menu} from 'antd'
 import { LoginOutlined, LogoutOutlined, CompassOutlined, HeartOutlined, LikeOutlined, SettingOutlined } from '@ant-design/icons';
 import {NavLink, useHistory } from "react-router-dom";
 import {connect} from 'react-redux'
